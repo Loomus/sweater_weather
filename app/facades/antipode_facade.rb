@@ -1,3 +1,3 @@
 class AntipodeFacade
-
-end 
+  
+end
