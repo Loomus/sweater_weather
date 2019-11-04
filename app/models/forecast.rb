@@ -7,7 +7,7 @@ class Forecast
     @id = 1
   end
 
-  def add_forecast_data
+  def create_forecast_data
     summary = @data[:currently][:summary]
     temperature = @data[:currently][:temperature].round
     high = @data[:daily][:data].first[:temperatureHigh].round
