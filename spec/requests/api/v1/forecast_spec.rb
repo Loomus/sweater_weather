@@ -19,5 +19,9 @@ RSpec.describe "Forecast API" do
       expect(forecast_data).to have_key(:date)
       expect(forecast_data).to have_key(:icon)
     end
+
+    it "returns 404 if invalid city" do
+      expect{ get '/api/v1/forecast?location=invalid' }.to raise_error(ActionController::RoutingError)
+    end
   end
 end
