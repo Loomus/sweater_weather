@@ -14,4 +14,13 @@ describe "Acount Creation" do
     expect(api_key["data"].count).to eq(3)
     expect(api_key["data"]["attributes"]["api_key"]).to eq("Kgs1XMbmJMzj-iVyz8ZWbg")
   end
+
+  it "does not return an api_key" do
+    post "/api/v1/users?email=&password=&password_confirmation="
+
+    expect(response).to_not be_successful
+    bad_request = JSON.parse(response.body)
+
+    expect(bad_request["data"]["attributes"]["errors"]).to eq("Password can't be blank and Email can't be blank")
+  end
 end
