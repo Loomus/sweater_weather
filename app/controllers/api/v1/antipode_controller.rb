@@ -1,11 +1,6 @@
 class Api::V1::AntipodeController < ApplicationController
   def index
     location = params[:location]
-    # render json: AnitpodeSerializer.new(
-    #   AntipodeFacade.new(params[:location])
-    # )
-    # forecast_data = WeatherService.forecast_data(location)
-    # binding.pry
     response = Faraday.get('https://maps.googleapis.com/maps/api/geocode/json') do |f|
       f.params[:address] = location
       f.params[:key] = ENV['GOOGLE_API_KEY']
@@ -24,6 +19,7 @@ class Api::V1::AntipodeController < ApplicationController
     anti_long = antipode_data[:data][:attributes][:long]
 
     dark_sky_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARKSKY_API_KEY']}/#{anti_lat},#{anti_long}")
+
     antipode_response = JSON.parse(dark_sky_response.body, symbolize_names: true)
     antipode = Antipode.new(antipode_response, location)
     antipode.create_antipode_data
