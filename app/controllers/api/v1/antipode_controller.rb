@@ -25,7 +25,7 @@ class Api::V1::AntipodeController < ApplicationController
 
     dark_sky_response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARKSKY_API_KEY']}/#{anti_lat},#{anti_long}")
     antipode_response = JSON.parse(dark_sky_response.body, symbolize_names: true)
-    
+    antipode = Antipode.new(antipode_response, location)
   binding.pry
   end
 end
