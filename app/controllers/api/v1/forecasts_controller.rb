@@ -1,19 +1,20 @@
 class Api::V1::ForecastsController < ApplicationController
   def index
-    location = params[:location]
-    response = Faraday.get('https://maps.googleapis.com/maps/api/geocode/json') do |f|
-      f.params[:address] = location
-      f.params[:key] = ENV['GOOGLE_API_KEY']
+    begin
+      location = params[:location]
+      city_weather = city_weather(location)
+      render json: city_weather
+    rescue NoMethodError
+      raise ActionController::RoutingError.new('City is Invalid')
     end
+  end
 
-    location_data = JSON.parse(response.body, symbolize_names: true)
-    lat = location_data[:results].first[:geometry][:location][:lat]
-    lng = location_data[:results].first[:geometry][:location][:lng]
-    response = Faraday.get("https://api.darksky.net/forecast/#{ENV['DARKSKY_API_KEY']}/#{lat},#{lng}")
-    forecast_data = JSON.parse(response.body, symbolize_names: true)
+  private
+
+  def city_weather(location)
+    forecast_data = WeatherService.forecast_data(location)
     forecast = Forecast.new(forecast_data, location)
-    forecast.add_forecast_data
-    weather_for_city = ForecastSerializer.new(forecast).serializable_hash
-    render json: weather_for_city
+    forecast.create_forecast_data
+    ForecastSerializer.new(forecast).serializable_hash
   end
 end
