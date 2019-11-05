@@ -6,6 +6,7 @@ class GoogleLocationService
         f.params[:key] = ENV['GOOGLE_API_KEY']
       end
     elsif latlng
+      latlng = "#{latlng[:lat]}, #{latlng[:long]}"
       response = Faraday.get('https://maps.googleapis.com/maps/api/geocode/json') do |f|
         f.params[:latlng] = latlng
         f.params[:key] = ENV['GOOGLE_API_KEY']
