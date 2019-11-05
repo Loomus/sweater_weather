@@ -1,20 +1,16 @@
 class Antipode
-  attr_accessor :current_antipode_weather, :id
+  attr_reader :current_antipode_weather
 
   def initialize(data, location, city)
-    @data = data
-    @location = location
-    @current_antipode_weather = {}
-    @id = 1
-    @city = city
+    @current_antipode_weather = create_antipode_data(data, location, city)
   end
 
-  def create_antipode_data
-    summary = @data[:currently][:summary]
-    temperature = @data[:currently][:temperature].round
-    @current_antipode_weather = {
-      search_location: @location,
-      location_name: @city,
+  def create_antipode_data(data, location, city)
+    summary = data[:currently][:summary]
+    temperature = data[:currently][:temperature].round
+    {
+      search_location: location,
+      location_name: city,
       summary: summary,
       current_temperature: temperature
     }

@@ -1,4 +1,5 @@
 class AntipodeSerializer
-  include FastJsonapi::ObjectSerializer
-  attributes :current_antipode_weather
+  def initialize(data)
+    @data = data
+  end
 end
