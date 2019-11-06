@@ -11,7 +11,7 @@ describe "Antipode API" do
 
      # These two will change but were correct at the initial time of testing
      # A webmock would be useful to solidify the results of this api call
-     expect(antipode[:data][:attributes][:current_antipode_weather][:summary]).to eq("Mostly Cloudy")
-     expect(antipode[:data][:attributes][:current_antipode_weather][:current_temperature]).to eq(71)
+     # expect(antipode[:data][:attributes][:current_antipode_weather][:summary]).to eq("Mostly Cloudy")
+     # expect(antipode[:data][:attributes][:current_antipode_weather][:current_temperature]).to eq(71)
   end
 end
