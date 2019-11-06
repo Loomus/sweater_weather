@@ -6,7 +6,7 @@ RSpec.describe "Forecast API" do
     it "returns main city info from given city" do
       get '/api/v1/forecast?location=denver,co'
 
-      forecast_data = JSON.parse(response.body, symbolize_names: true)[:data][:attributes][:city_weather][:main]
+      forecast_data = JSON.parse(response.body, symbolize_names: true)[:data][:attributes][:city_weather]
 
       expect(forecast_data).to have_key(:city)
       expect(forecast_data[:city]).to eq('denver, co')
@@ -29,7 +29,7 @@ RSpec.describe "Forecast API" do
   it "returns details from given city" do
       get '/api/v1/forecast?location=denver,co'
 
-      details = JSON.parse(response.body, symbolize_names: true)[:data][:attributes][:city_weather][:details]
+      details = JSON.parse(response.body, symbolize_names: true)[:data][:attributes][:city_weather]
 
       expect(details).to have_key(:summary)
       expect(details).to have_key(:icon)
@@ -48,8 +48,8 @@ RSpec.describe "Forecast API" do
 
       expect(response).to be_successful
 
-      future_forecast = JSON.parse(response.body, symbolize_names: true)[:data][:attributes][:city_weather][:extended_forecast]
-      
+      future_forecast = JSON.parse(response.body, symbolize_names: true)[:data][:attributes][:city_weather]
+      # binding.pry
       expect(future_forecast[:hourly].length).to eq(8)
       expect(future_forecast[:daily].length).to eq(5)
       expect(future_forecast[:hourly].first).to have_key(:time)

@@ -4,7 +4,7 @@ class Forecast
     @data = data
     @location = location
     @city_weather = {}
-    @id = 1
+    # @id = 1
   end
 
   def add_all_weather_data
