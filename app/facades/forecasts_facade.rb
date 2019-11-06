@@ -9,7 +9,6 @@ class ForecastsFacade
     forecast_data = WeatherService.forecast_data(@location)
     forecast = Forecast.new(forecast_data, @location)
     forecast.add_all_weather_data
-    # binding.pry
-    # ForecastSerializer.new(forecast).serializable_hash
+    forecast.city_weather
   end
 end
