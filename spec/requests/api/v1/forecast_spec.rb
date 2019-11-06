@@ -41,4 +41,25 @@ RSpec.describe "Forecast API" do
       expect(details).to have_key(:uv_index)
     end
   end
+
+  context 'future forecast section' do
+    it "returns future forecast from given city" do
+      get '/api/v1/forecast?location=denver,co'
+
+      expect(response).to be_successful
+
+      future_forecast = JSON.parse(response.body, symbolize_names: true)[:data][:attributes][:city_weather][:extended_forecast]
+      
+      expect(future_forecast[:hourly].length).to eq(8)
+      expect(future_forecast[:daily].length).to eq(5)
+      expect(future_forecast[:hourly].first).to have_key(:time)
+      expect(future_forecast[:hourly].first).to have_key(:temperature)
+      expect(future_forecast[:daily].first).to have_key(:week_day)
+      expect(future_forecast[:daily].first).to have_key(:summary)
+      expect(future_forecast[:daily].first).to have_key(:icon)
+      expect(future_forecast[:daily].first).to have_key(:humidity)
+      expect(future_forecast[:daily].first).to have_key(:high)
+      expect(future_forecast[:daily].first).to have_key(:low)
+    end
+  end
 end
