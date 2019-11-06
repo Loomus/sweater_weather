@@ -24,4 +24,21 @@ RSpec.describe "Forecast API" do
       expect{ get '/api/v1/forecast?location=invalid' }.to raise_error(ActionController::RoutingError)
     end
   end
+
+  context 'details section' do
+  it "returns details from given city" do
+      get '/api/v1/forecast?location=denver,co'
+
+      details = JSON.parse(response.body, symbolize_names: true)[:data][:attributes][:city_weather][:details]
+
+      expect(details).to have_key(:summary)
+      expect(details).to have_key(:icon)
+      expect(details).to have_key(:today)
+      expect(details).to have_key(:tonight)
+      expect(details).to have_key(:feels_like)
+      expect(details).to have_key(:humidity)
+      expect(details).to have_key(:visibility)
+      expect(details).to have_key(:uv_index)
+    end
+  end
 end
